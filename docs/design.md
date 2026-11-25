@@ -6,4 +6,4 @@ Future optimiser DCE will use backwards liveness: `OUT[B] = union(IN[S])`, `IN[B
 
 The current CFG uses the classic leaders algorithm: first instruction, every label, instruction following a branch, and branch targets begin basic blocks. The local optimiser folds numeric TAC expressions and removes `x + 0` / `x * 1`; full global propagation and liveness DCE remain planned.
 
-The optimiser now also performs conservative local backwards liveness on temporary TAC assignments: a temporary whose value is never subsequently used is removed only when its right-hand side has no function call. This preserves side effects.
+The optimiser also performs backwards liveness to a fixed point over CFG successors. Its equations are `OUT[B] = union(IN[S])` and `IN[B] = USE[B] union (OUT[B] - DEF[B])`. A temporary whose definition is not live-out is removed only when its right-hand side has no function call, preserving side effects.

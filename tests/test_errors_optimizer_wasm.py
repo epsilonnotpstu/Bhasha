@@ -17,6 +17,9 @@ def test_optimizer_folds_and_removes_dead_temp():
  out,stats=optimize(['t1 = 2 + 3','t2 = 9 * 1','print t1']); assert out==['t1 = 5','print t1']; assert stats['dead_code']==1
 def test_optimizer_propagates_constant_within_block():
  out,stats=optimize(['t1 = 4','t2 = t1 + 0','print t2']); assert out==['t2 = 4','print t2']; assert stats['copy_propagations'] >= 1
+def test_optimizer_dce_keeps_value_used_after_branch():
+ ir=['t1 = 4','ifFalse c goto else1','print t1','goto end1','else1:','print t1','end1:']
+ out,stats=optimize(ir); assert 't1 = 4' in out and stats['dead_code']==0
 def test_wat_for_constant_arithmetic():
  _,tree,ds,_=compile_text('dekhao 2 + 3;'); assert not ds; wat=emit_wat(tree); assert 'i32.add' in wat and '(export "run")' in wat
 def test_wat_rejects_variables():

@@ -8,7 +8,7 @@
 - [x] CLI and basic browser playground
 - [x] Initial examples and error diagnostics
 - [x] Label-based CFG inspection (leaders algorithm)
-- [~] Optimiser (basic-block constant/copy propagation, folding, algebraic identities, local temporary DCE; no global data-flow)
+- [x] Optimiser (basic-block constant/copy propagation, folding, algebraic identities, global CFG-liveness DCE)
 - [~] Native ELF backend (GCC-generated C for implemented AST subset)
 - [~] Minimal WAT backend (integer literal arithmetic only)
 - [x] Expanded automated test suite and 90% coverage target
@@ -18,7 +18,7 @@
 - [x] Error-message fixtures for lexical, syntax, semantic, and type errors
 - [x] Slide outline, demo script, and viva Q&A
 - [~] Inspectable System V x86-64 assembly via GCC (`--asm`)
-- [ ] Direct handwritten x86 assembly and full global data-flow optimisation
+- [ ] Direct handwritten x86 assembly and full WAT backend
 
 ## Latest verification
 
