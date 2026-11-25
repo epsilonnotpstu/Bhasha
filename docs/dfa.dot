@@ -1,0 +1,7 @@
+digraph DFA {
+  rankdir=LR; node [shape=circle]; start [shape=point]; start -> id;
+  id [label="identifier\nletter/_"]; id -> id [label="letter/digit/_"];
+  start -> integer [label="digit"]; integer [shape=doublecircle,label="integer"];
+  integer -> integer [label="digit"]; integer -> dot [label="."];
+  dot -> fraction [label="digit"]; fraction [shape=doublecircle,label="float"]; fraction -> fraction [label="digit"];
+}
