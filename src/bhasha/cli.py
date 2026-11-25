@@ -7,6 +7,8 @@ from .parser import parse
 from .semantic import analyze
 from .irgen import generate
 from .backend.vm import run
+from .cfg import build_cfg
+from .optimizer import optimize
 def compile_text(text,source="<input>"):
  tokens,ds=lex(text,source)
  if ds:return tokens,None,ds,None
@@ -22,11 +24,13 @@ def main(argv=None):
  if ds: print("\n".join(d.render(text) for d in ds),file=sys.stderr); return 1
  if a.tokens: print("\n".join(f"{t.line}:{t.column}\t{t.type}\t{t.lexeme!r}" for t in ts[:-1]))
  if a.ast: print(json.dumps(asdict(tree),ensure_ascii=False,indent=2))
- if a.tac or getattr(a,"opt_tac"): print("\n".join(ir))
- if a.cfg: print("digraph CFG { entry -> exit; }")
+ opt_ir,stats=optimize(ir)
+ if a.tac: print("\n".join(ir))
+ if getattr(a,"opt_tac"): print("\n".join(opt_ir))
+ if a.cfg: print(build_cfg(ir).dot())
  if a.symtab: print("Semantic analysis passed; symbols are scope-checked.")
  if a.asm or a.wat or a.output: print("Requested optional native/WAT artifact is not available; use --run.",file=sys.stderr); return 1
- if a.stats: print(f"IR instructions: {len(ir)} (optimisation is not yet enabled)")
+ if a.stats: print(f"IR instructions: {stats['before']} -> {stats['after']}; identity simplifications: {stats['simplified']}")
  if a.run: print(run(tree),end="")
  return 0
 if __name__=="__main__": raise SystemExit(main())

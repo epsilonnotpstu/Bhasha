@@ -1,0 +1,8 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bhasha playground</title>
+<style>body{margin:0;font:15px system-ui;background:#10151f;color:#e8edf5}main{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}section{padding:18px}textarea,pre{width:100%;box-sizing:border-box;background:#182232;color:#e8edf5;border:1px solid #34445c;border-radius:7px;padding:12px;font:14px ui-monospace,monospace}textarea{height:70vh}button{background:#57d5a1;border:0;border-radius:6px;padding:9px 14px;font-weight:bold}pre{height:75vh;overflow:auto;white-space:pre-wrap}@media(max-width:700px){main{grid-template-columns:1fr}}</style>
+<main><section><h1>Bhasha playground</h1><textarea id="code">kaj fact(purno n): purno {
+  jodi n <= 1 { ferot 1; }
+  ferot n * fact(n - 1);
+}
+dekhao fact(5);</textarea><p><button onclick="go()">Compile &amp; Run</button></p></section><section><h2>Output / diagnostics</h2><pre id="out">Ready.</pre></section></main>
+<script>async function go(){let r=await fetch('/api/compile',{method:'POST',body:JSON.stringify({source:code.value})});let x=await r.json();out.textContent=x.diagnostics?.length?x.diagnostics.join('\n\n'):'OUTPUT\n'+x.output+'\nTAC\n'+x.tac.join('\n')+'\n\nOPTIMISATION\n'+JSON.stringify(x.stats,null,2)+'\n\nCFG DOT\n'+x.cfg}</script></html>
