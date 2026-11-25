@@ -1,11 +1,11 @@
 # Progress
 
 - [x] Bootstrap and plan
-- [ ] Lexer
-- [ ] Parser and AST
-- [ ] Semantic analysis
-- [ ] IR, CFG, optimiser, VM
-- [ ] CLI, playground, documentation, examples, tests
+- [x] Lexer
+- [x] Parser and AST
+- [x] Semantic analysis
+- [x] Inspectable IR and reference VM
+- [~] CLI, playground, documentation, examples, tests
 
 ## Decisions
 
@@ -14,4 +14,4 @@
 
 ## Next step
 
-Create the package metadata and implement the lexer/parser pipeline.
+Run examples and add the remaining advanced project phases (optimiser, CFG, native/WAT, playground, full academic report).

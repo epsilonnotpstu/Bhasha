@@ -4,7 +4,7 @@ from .ast_nodes import *
 from .diagnostics import Diagnostic
 TYPE={"purno":"int","পূর্ণ":"int","doshomik":"float","দশমিক":"float","huen":"bool"}
 @dataclass
-class Symbol: name:str; type:str; initialized:bool=False; used:bool=False; params:list|None=None
+class Symbol: name:str; type:str; initialized:bool=False; used:bool=False; params:list|None=None; return_type:str|None=None
 class Analyzer:
  def __init__(self,source="<input>"):self.source=source;self.scopes=[{}];self.diagnostics=[];self.loop=0;self.returns=[]
  def error(self,n,msg):self.diagnostics.append(Diagnostic(msg,n.line,n.column,self.source))
@@ -31,7 +31,7 @@ class Analyzer:
    elif a in ("int","float") and b in ("int","float"):t="float" if "float" in (a,b) else "int"
    else:self.error(n,"invalid operands");t="error"
   elif isinstance(n,Call):
-   s=self.find(n,n.callee);t=s.type
+   s=self.find(n,n.callee);t=s.return_type or s.type
    if s.type!="function":self.error(n,f"'{n.callee}' is not a function");t="error"
    elif len(n.args)!=len(s.params or []):self.error(n,"wrong argument count")
    else:
@@ -42,7 +42,10 @@ class Analyzer:
  def visit(self,n):
   if isinstance(n,Program):
    for x in n.statements:
-    if isinstance(x,Function):self.declare(x,x.name,"function",initialized=True,params=[TYPE.get(p[1],p[1]) for p in x.params]);x.inferred_type=TYPE.get(x.return_type,x.return_type)
+    if isinstance(x,Function):
+     result=TYPE.get(x.return_type,x.return_type)
+     self.declare(x,x.name,"function",initialized=True,params=[TYPE.get(p[1],p[1]) for p in x.params],return_type=result)
+     x.inferred_type=result
    for x in n.statements:self.visit(x)
   elif isinstance(n,Block):
    self.scopes.append({});[self.visit(x) for x in n.statements];self.scopes.pop()
