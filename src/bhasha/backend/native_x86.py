@@ -1,5 +1,6 @@
 """Practical native backend: lower supported Bhasha AST constructs to C, then GCC ELF."""
 from pathlib import Path
+import json
 import subprocess
 from ..ast_nodes import *
 
@@ -8,7 +9,7 @@ class CEmitter:
  def emit(self,s):self.lines.append("  "*self.indent+s)
  def typ(self,t):return {"purno":"long","পূর্ণ":"long","doshomik":"double","দশমিক":"double","huen":"bool"}.get(t,"long")
  def expr(self,n):
-  if isinstance(n,Literal):return 'true' if n.value is True else 'false' if n.value is False else repr(n.value)
+  if isinstance(n,Literal):return 'true' if n.value is True else 'false' if n.value is False else json.dumps(n.value) if isinstance(n.value,str) else repr(n.value)
   if isinstance(n,Name):return n.name
   if isinstance(n,Index):return f"{self.expr(n.array)}[{self.expr(n.index)}]"
   if isinstance(n,Unary):return f"({'!' if n.op in ('NOT','!') else n.op}{self.expr(n.operand)})"
