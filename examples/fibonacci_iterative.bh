@@ -1,0 +1,8 @@
+dhoro purno a = 0;
+dhoro purno b = 1;
+cholo i = 0 theke 8 {
+  dhoro purno t = a + b;
+  a = b;
+  b = t;
+}
+dekhao a;

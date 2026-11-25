@@ -7,7 +7,7 @@ from bhasha.backend.vm import run
 from bhasha.backend.native_x86 import emit_native
 
 ROOT=Path(__file__).parents[1]
-EXAMPLES=['hello','arithmetic','factorial','loop','gcd','condition']
+EXAMPLES=['hello','arithmetic','factorial','loop','gcd','condition','fibonacci_iterative','fibonacci_recursive','array_sum_max','function_heavy']
 @pytest.mark.parametrize('name',EXAMPLES)
 def test_vm_and_native_match_expected(name,tmp_path):
  source=(ROOT/'examples'/f'{name}.bh').read_text(encoding='utf8')

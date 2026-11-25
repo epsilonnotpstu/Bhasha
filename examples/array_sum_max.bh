@@ -1,0 +1,10 @@
+dhoro purno[5] a;
+dhoro purno sum = 0;
+dhoro purno biggest = 0;
+cholo i = 0 theke 5 {
+  a[i] = i * 3;
+  sum += a[i];
+  jodi a[i] > biggest { biggest = a[i]; }
+}
+dekhao sum;
+dekhao biggest;

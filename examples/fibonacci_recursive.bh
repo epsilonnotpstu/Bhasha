@@ -1,0 +1,5 @@
+kaj fib(purno n): purno {
+  jodi n <= 1 { ferot n; }
+  ferot fib(n - 1) + fib(n - 2);
+}
+dekhao fib(8);

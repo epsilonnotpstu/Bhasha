@@ -9,6 +9,8 @@ make setup
 
 Use `make test` for the test suite. The native x86 and WebAssembly emitters described in the original project brief remain planned work; `--run` is the supported execution path.
 
+The `examples/` folder contains ten valid programs (hello, arithmetic, recursive factorial, loops, GCD, conditionals, iterative/recursive Fibonacci, arrays, and multi-function calls) plus lexical/syntax/semantic error inputs.
+
 Native ELF for the supported language subset: `.venv/bin/bhasha examples/factorial.bh -o fact && ./fact`.
 
 Inspect the corresponding GCC-generated System V x86-64 assembly with `.venv/bin/bhasha examples/factorial.bh --asm`.
