@@ -32,4 +32,4 @@ Export tokens, AST, TAC, optimised TAC, and CFG together with `.venv/bin/bhasha 
 
 Start the browser playground with `PYTHONPATH=src python3 -m bhasha.playground`, then visit `http://localhost:8000`.
 
-The playground presents Output, Tokens, AST, TAC, Optimized TAC, CFG DOT, optimisation stats, and Diagnostics in tabs.
+The playground presents Output, Tokens, AST, TAC, Optimized TAC, an inline SVG CFG plus DOT, optimisation stats, and Diagnostics in tabs.

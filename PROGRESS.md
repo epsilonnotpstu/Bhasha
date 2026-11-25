@@ -16,6 +16,7 @@
 - [x] Inspectable artifact export and DFA diagram generator
 - [x] Supported WAT artifact export and control-flow tests
 - [x] Tabbed playground compiler inspection UI
+- [x] Inline SVG CFG rendering in playground
 - [x] Ten valid golden examples across key language features
 - [x] Error-message fixtures for lexical, syntax, semantic, and type errors
 - [x] Slide outline, demo script, and viva Q&A

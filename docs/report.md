@@ -16,6 +16,8 @@ The IR is readable TAC with temporaries, labels and conditional/unconditional ju
 
 Dead-code elimination uses backwards CFG liveness to a fixed point: `OUT[B] = union(IN[S])` and `IN[B] = USE[B] union (OUT[B] - DEF[B])`. Only pure unused temporary definitions are removed.
 
+The browser playground is dependency-free (`http.server`) and exposes every implemented inspection stage in tabs. Its CFG response includes both DOT and block/edge data, which the UI renders as inline SVG.
+
 ## Implementation and testing
 
 The command `PYTHONPATH=src python3 -m bhasha.cli examples/factorial.bh --tac --run` produced `120` during the latest verification. The venv test suite reports 34 passing tests and 94% total coverage, meeting the intended 90% target. Golden tests compare VM and native ELF output for all ten shipped valid examples.
