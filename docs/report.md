@@ -14,6 +14,8 @@ The language provides integer, floating point and Boolean types, fixed arrays, b
 
 The IR is readable TAC with temporaries, labels and conditional/unconditional jumps. CFG construction applies basic-block leaders. Optimisation performs basic-block-local constant/copy propagation, numeric folding, identities and conservative temporary DCE. The VM is the reference backend. The native backend emits C and invokes GCC to produce a Linux ELF; `--asm` exposes GCC's generated System V x86-64 assembly. The optional WAT emitter supports integer literal arithmetic.
 
+Dead-code elimination uses backwards CFG liveness to a fixed point: `OUT[B] = union(IN[S])` and `IN[B] = USE[B] union (OUT[B] - DEF[B])`. Only pure unused temporary definitions are removed.
+
 ## Implementation and testing
 
 The command `PYTHONPATH=src python3 -m bhasha.cli examples/factorial.bh --tac --run` produced `120` during the latest verification. The venv test suite reports 30 passing tests and 94% total coverage, meeting the intended 90% target. Golden tests compare VM and native ELF output for all ten shipped valid examples.
