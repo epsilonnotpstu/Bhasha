@@ -8,7 +8,8 @@ import subprocess
 from ..ast_nodes import *
 class DirectX86Error(ValueError): pass
 class Emitter:
- def __init__(self):self.lines=['.intel_syntax noprefix','.global main','.extern printf','.section .rodata','fmt: .string "%ld\\n"','.text','main:','  push rbp','  mov rbp, rsp','  sub rsp, 128'];self.slots={};self.next=0
+ def __init__(self):self.lines=['.intel_syntax noprefix','.global main','.extern printf','.section .rodata','fmt: .string "%ld\\n"','.text','main:','  push rbp','  mov rbp, rsp','  sub rsp, 128'];self.slots={};self.next=0;self.labels=0
+ def label(self):self.labels+=1;return f'.L{self.labels}'
  def slot(self,name):
   if name not in self.slots:self.next+=8;self.slots[name]=self.next
   return f'[rbp-{self.slots[name]}]'
@@ -34,6 +35,14 @@ class Emitter:
    self.expr(n.value);self.lines.append(f'  mov QWORD PTR {self.slot(n.target.name)}, rax')
   elif isinstance(n,Print):
    self.expr(n.value);self.lines+=['  mov rsi, rax','  lea rdi, [rip+fmt]','  xor eax, eax','  call printf']
+  elif isinstance(n,If):
+   alt,end=self.label(),self.label();self.expr(n.condition);self.lines+=['  test rax, rax',f'  jz {alt}'];self.stmt(n.then_branch);self.lines+= [f'  jmp {end}',f'{alt}:']
+   if n.else_branch:self.stmt(n.else_branch)
+   self.lines.append(f'{end}:')
+  elif isinstance(n,Block):
+   for s in n.statements:self.stmt(s)
+  elif isinstance(n,While):
+   start,end=self.label(),self.label();self.lines.append(f'{start}:');self.expr(n.condition);self.lines+=['  test rax, rax',f'  jz {end}'];self.stmt(n.body);self.lines+= [f'  jmp {start}',f'{end}:']
   else:raise DirectX86Error(f'direct x86 unsupported statement: {type(n).__name__}')
  def generate(self,p):
   for s in p.statements:self.stmt(s)
