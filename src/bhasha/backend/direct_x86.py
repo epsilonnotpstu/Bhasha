@@ -27,6 +27,7 @@ class Emitter:
    else:
     self.lines.append('  cmp rcx, rax');self.lines.append('  mov eax, 0')
     self.lines.append({'==':'  sete al','!=':'  setne al','<':'  setl al','>':'  setg al','<=':'  setle al','>=':'  setge al'}[n.op])
+  elif isinstance(n,Call) and not n.args:self.lines.append(f'  call fn_{n.callee}')
   else:raise DirectX86Error(f'direct x86 unsupported expression: {type(n).__name__}')
  def stmt(self,n):
   if isinstance(n,VarDecl) and not n.size and n.type_name in ('purno','পূর্ণ'):
@@ -45,9 +46,16 @@ class Emitter:
    start,end=self.label(),self.label();self.lines.append(f'{start}:');self.expr(n.condition);self.lines+=['  test rax, rax',f'  jz {end}'];self.stmt(n.body);self.lines+= [f'  jmp {start}',f'{end}:']
   elif isinstance(n,For):
    self.expr(n.start);self.lines.append(f'  mov QWORD PTR {self.slot(n.name)}, rax');start,end=self.label(),self.label();self.lines.append(f'{start}:');self.expr(Name(name=n.name));self.lines.append('  push rax');self.expr(n.end);self.lines+=['  pop rcx','  cmp rcx, rax',f'  jge {end}'];self.stmt(n.body);self.lines+= [f'  add QWORD PTR {self.slot(n.name)}, 1',f'  jmp {start}',f'{end}:']
+  elif isinstance(n,Return):self.expr(n.value);self.lines+=['  leave','  ret']
   else:raise DirectX86Error(f'direct x86 unsupported statement: {type(n).__name__}')
  def generate(self,p):
-  for s in p.statements:self.stmt(s)
-  self.lines+=['  xor eax, eax','  leave','  ret'];return '\n'.join(self.lines)+'\n'
+  for s in p.statements:
+   if not isinstance(s,Function):self.stmt(s)
+  self.lines+=['  xor eax, eax','  leave','  ret']
+  for f in p.statements:
+   if isinstance(f,Function):
+    if f.params:raise DirectX86Error('direct x86 function parameters are not implemented')
+    self.slots={};self.next=0;self.lines+= [f'fn_{f.name}:','  push rbp','  mov rbp, rsp','  sub rsp, 128'];self.stmt(f.body)
+  return '\n'.join(self.lines)+'\n'
 def emit_direct(program,outfile):
  out=Path(outfile);asm=out.with_suffix('.s');asm.write_text(Emitter().generate(program),encoding='utf8');subprocess.run(['gcc','-no-pie',str(asm),'-o',str(out)],check=True);return asm
