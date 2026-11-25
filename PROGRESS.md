@@ -12,12 +12,13 @@
 - [~] Native ELF backend (GCC-generated C for implemented AST subset)
 - [~] Minimal WAT backend (integer literal arithmetic only)
 - [x] Expanded automated test suite and 90% coverage target
+- [x] Slide outline, demo script, and viva Q&A
 - [~] Inspectable System V x86-64 assembly via GCC (`--asm`)
 - [ ] Direct handwritten x86 assembly and full global data-flow optimisation
 
 ## Latest verification
 
-- `pytest -q --cov=bhasha`: 17 passed, 91% total coverage.
+- `pytest -q --cov=bhasha`: 19 passed, 90% total coverage.
 - Native factorial (`-o /tmp/fact`) ran successfully and printed `120`.
 
 ## Decisions
