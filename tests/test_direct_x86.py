@@ -13,3 +13,7 @@ def test_direct_x86_comparisons(tmp_path):
  _,tree,ds,_=compile_text('dekhao 2 < 3; dekhao 4 == 4; dekhao 5 != 5;')
  assert not ds;exe=tmp_path/'cmp';emit_direct(tree,exe)
  assert subprocess.run([str(exe)],capture_output=True,text=True,check=True).stdout=='1\n1\n0\n'
+def test_direct_x86_recursive_function(tmp_path):
+ source='kaj fact(purno n): purno { jodi n <= 1 { ferot 1; } ferot n * fact(n - 1); } dekhao fact(5);'
+ _,tree,ds,_=compile_text(source); assert not ds;exe=tmp_path/'fact';emit_direct(tree,exe)
+ assert subprocess.run([str(exe)],capture_output=True,text=True,check=True).stdout=='120\n'

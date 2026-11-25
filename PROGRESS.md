@@ -21,8 +21,8 @@
 - [x] Error-message fixtures for lexical, syntax, semantic, and type errors
 - [x] Slide outline, demo script, and viva Q&A
 - [~] Inspectable System V x86-64 assembly via GCC (`--asm`)
-- [~] Direct handwritten x86-64 subset backend (integers, arithmetic, comparisons, if/while/for, print)
-- [ ] Direct x86 functions/recursion, arrays/floats, and full WAT backend
+- [~] Direct handwritten x86-64 subset backend (integers, control flow, functions/recursion, print)
+- [ ] Direct x86 arrays/floats/break/continue and full WAT backend
 
 ## Latest verification
 
