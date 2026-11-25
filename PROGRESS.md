@@ -14,6 +14,7 @@
 - [x] Expanded automated test suite and 90% coverage target
 - [x] Golden VM/native example equivalence tests
 - [x] Inspectable artifact export and DFA diagram generator
+- [x] Supported WAT artifact export and control-flow tests
 - [x] Ten valid golden examples across key language features
 - [x] Error-message fixtures for lexical, syntax, semantic, and type errors
 - [x] Slide outline, demo script, and viva Q&A
@@ -22,7 +23,7 @@
 
 ## Latest verification
 
-- `pytest -q --cov=bhasha`: 33 passed, 93% total coverage; ten valid examples match on VM and native ELF; four erroneous examples have checked diagnostics.
+- `pytest -q --cov=bhasha`: 34 passed, 94% total coverage; ten valid examples match on VM and native ELF; four erroneous examples have checked diagnostics.
 - Native factorial (`-o /tmp/fact`) ran successfully and printed `120`.
 
 ## Decisions
