@@ -10,6 +10,7 @@ from .backend.vm import run
 from .cfg_new import build_cfg
 from .optimizer import optimize
 from .backend.native_x86 import emit_native
+from .backend.wasm import emit_wat, WasmError
 def compile_text(text,source="<input>"):
  tokens,ds=lex(text,source)
  if ds:return tokens,None,ds,None
@@ -34,8 +35,11 @@ def main(argv=None):
   try:
    c=emit_native(tree,a.output); print(f"native ELF: {a.output} (generated C: {c})")
   except (OSError,subprocess.CalledProcessError,ValueError) as e: print(f"native backend error: {e}",file=sys.stderr);return 1
- if a.asm or a.wat: print("WAT/assembly textual emission is not yet implemented; native compilation uses generated C.",file=sys.stderr)
- if a.stats: print(f"IR instructions: {stats['before']} -> {stats['after']}; identity simplifications: {stats['simplified']}")
+ if a.wat:
+  try: print(emit_wat(tree),end="")
+  except WasmError as e: print(f"WAT backend error: {e}",file=sys.stderr); return 1
+ if a.asm: print("Direct assembly text is not implemented; native compilation uses generated C.",file=sys.stderr)
+ if a.stats: print(f"IR instructions: {stats['before']} -> {stats['after']}; folds: {stats['constant_folds']}; simplified: {stats['simplified']}; dead: {stats['dead_code']}")
  if a.run: print(run(tree),end="")
  return 0
 if __name__=="__main__": raise SystemExit(main())

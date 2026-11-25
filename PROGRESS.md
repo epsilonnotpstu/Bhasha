@@ -8,9 +8,10 @@
 - [x] CLI and basic browser playground
 - [x] Initial examples and error diagnostics
 - [x] Label-based CFG inspection (leaders algorithm)
-- [~] Optimiser (constant folding and algebraic identities; no global data-flow/DCE)
+- [~] Optimiser (constant folding, algebraic identities, local temporary DCE; no global data-flow)
 - [~] Native ELF backend (GCC-generated C for implemented AST subset)
-- [ ] WAT backend, direct x86 assembly, full data-flow optimisation, expanded tests and 90% coverage
+- [~] Minimal WAT backend (integer literal arithmetic only)
+- [ ] Direct x86 assembly, full data-flow optimisation, expanded tests and 90% coverage
 
 ## Latest verification
 
