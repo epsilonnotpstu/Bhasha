@@ -39,7 +39,7 @@ def test_playground_api_success_and_diagnostics():
         url = f'http://127.0.0.1:{server.server_port}/api/compile'
         req = Request(url, data=json.dumps({'source':'dekhao 8;'}).encode(), headers={'Content-Type':'application/json'}, method='POST')
         with urlopen(req) as response: payload=json.load(response)
-        assert payload['output'] == '8\n' and payload['tac']
+        assert payload['output'] == '8\n' and payload['tac'] and payload['cfgBlocks']
         req = Request(url, data=json.dumps({'source':'dekhao @;'}).encode(), headers={'Content-Type':'application/json'}, method='POST')
         with urlopen(req) as response: payload=json.load(response)
         assert payload['diagnostics']

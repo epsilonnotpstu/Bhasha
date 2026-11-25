@@ -18,7 +18,8 @@ class Handler(SimpleHTTPRequestHandler):
             source=raw.get("source",""); tokens,tree,diagnostics,ir=compile_text(source,"playground.bh")
             response={"diagnostics":[d.render(source) for d in diagnostics], "tokens":[asdict(t) for t in tokens]}
             if not diagnostics:
-                opt,stats=optimize(ir); response.update({"ast":asdict(tree),"tac":ir,"optTac":opt,"stats":stats,"cfg":build_cfg(ir).dot(),"output":run(tree)})
+                opt,stats=optimize(ir); cfg=build_cfg(ir)
+                response.update({"ast":asdict(tree),"tac":ir,"optTac":opt,"stats":stats,"cfg":cfg.dot(),"cfgBlocks":cfg.blocks,"cfgEdges":cfg.edges,"output":run(tree)})
             self.send_response(200); self.send_header("Content-Type","application/json; charset=utf-8"); self.end_headers(); self.wfile.write(json.dumps(response,ensure_ascii=False).encode())
         except Exception as e: self.send_error(400,str(e))
 def main():
