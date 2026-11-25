@@ -6,7 +6,7 @@ Bhasha is a hand-written educational compiler pipeline for a small language with
 
 ## Implementation and testing
 
-The command `PYTHONPATH=src python3 -m bhasha.cli examples/factorial.bh --tac --run` produced `120` during the latest verification. `pytest` is specified as a dev dependency but was not installed in the supplied environment, so a coverage percentage is not claimed.
+The command `PYTHONPATH=src python3 -m bhasha.cli examples/factorial.bh --tac --run` produced `120` during the latest verification. The venv test suite reports 5 passing tests and 73% total coverage. This is a measured result, but it does not meet the intended 90% target.
 
 ## Limitations
 

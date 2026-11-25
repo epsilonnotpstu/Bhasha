@@ -7,9 +7,15 @@
 - [x] Inspectable IR and reference VM
 - [x] CLI and basic browser playground
 - [x] Initial examples and error diagnostics
-- [~] CFG/optimiser (basic-block utility and local pass in progress)
-- [~] Native x86 backend (GCC ELF backend for implemented AST subset)
-- [ ] WAT backend, full data-flow optimisation, full academic documentation and coverage
+- [x] Label-based CFG inspection (leaders algorithm)
+- [~] Optimiser (constant folding and algebraic identities; no global data-flow/DCE)
+- [~] Native ELF backend (GCC-generated C for implemented AST subset)
+- [ ] WAT backend, direct x86 assembly, full data-flow optimisation, expanded tests and 90% coverage
+
+## Latest verification
+
+- `pytest -q --cov=bhasha`: 5 passed, 73% total coverage (not yet the 90% target).
+- Native factorial (`-o /tmp/fact`) ran successfully and printed `120`.
 
 ## Decisions
 
