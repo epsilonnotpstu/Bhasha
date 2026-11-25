@@ -43,6 +43,8 @@ class Emitter:
    for s in n.statements:self.stmt(s)
   elif isinstance(n,While):
    start,end=self.label(),self.label();self.lines.append(f'{start}:');self.expr(n.condition);self.lines+=['  test rax, rax',f'  jz {end}'];self.stmt(n.body);self.lines+= [f'  jmp {start}',f'{end}:']
+  elif isinstance(n,For):
+   self.expr(n.start);self.lines.append(f'  mov QWORD PTR {self.slot(n.name)}, rax');start,end=self.label(),self.label();self.lines.append(f'{start}:');self.expr(Name(name=n.name));self.lines.append('  push rax');self.expr(n.end);self.lines+=['  pop rcx','  cmp rcx, rax',f'  jge {end}'];self.stmt(n.body);self.lines+= [f'  add QWORD PTR {self.slot(n.name)}, 1',f'  jmp {start}',f'{end}:']
   else:raise DirectX86Error(f'direct x86 unsupported statement: {type(n).__name__}')
  def generate(self,p):
   for s in p.statements:self.stmt(s)
