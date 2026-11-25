@@ -50,7 +50,7 @@ class Analyzer:
   elif isinstance(n,Block):
    self.scopes.append({});[self.visit(x) for x in n.statements];self.scopes.pop()
   elif isinstance(n,VarDecl):
-   ty=TYPE.get(n.type_name,n.type_name);ty="array:"+ty if n.size else ty;self.declare(n,n.name,ty,initialized=n.value is not None)
+   ty=TYPE.get(n.type_name,n.type_name);ty="array:"+ty if n.size else ty;self.declare(n,n.name,ty,initialized=n.value is not None or n.size is not None)
    if n.size and self.expr(n.size)!="int":self.error(n,"array size must be int")
    if n.value and not self.compatible(ty,self.expr(n.value)):self.error(n,"type mismatch in initializer")
   elif isinstance(n,Assign):
