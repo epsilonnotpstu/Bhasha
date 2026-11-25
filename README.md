@@ -31,3 +31,5 @@ Export tokens, AST, TAC, optimised TAC, and CFG together with `.venv/bin/bhasha 
 `--emit-all` additionally writes `program.wat` whenever the input is in the supported integer WAT subset.
 
 Start the browser playground with `PYTHONPATH=src python3 -m bhasha.playground`, then visit `http://localhost:8000`.
+
+The playground presents Output, Tokens, AST, TAC, Optimized TAC, CFG DOT, optimisation stats, and Diagnostics in tabs.
