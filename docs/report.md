@@ -16,7 +16,7 @@ The IR is readable TAC with temporaries, labels and conditional/unconditional ju
 
 ## Implementation and testing
 
-The command `PYTHONPATH=src python3 -m bhasha.cli examples/factorial.bh --tac --run` produced `120` during the latest verification. The venv test suite reports 26 passing tests and 94% total coverage, meeting the intended 90% target. Golden tests compare VM and native ELF output for all shipped valid examples.
+The command `PYTHONPATH=src python3 -m bhasha.cli examples/factorial.bh --tac --run` produced `120` during the latest verification. The venv test suite reports 30 passing tests and 94% total coverage, meeting the intended 90% target. Golden tests compare VM and native ELF output for all ten shipped valid examples.
 
 ## Limitations
 

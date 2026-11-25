@@ -14,13 +14,14 @@
 - [x] Expanded automated test suite and 90% coverage target
 - [x] Golden VM/native example equivalence tests
 - [x] Inspectable artifact export and DFA diagram generator
+- [x] Ten valid golden examples across key language features
 - [x] Slide outline, demo script, and viva Q&A
 - [~] Inspectable System V x86-64 assembly via GCC (`--asm`)
 - [ ] Direct handwritten x86 assembly and full global data-flow optimisation
 
 ## Latest verification
 
-- `pytest -q --cov=bhasha`: 26 passed, 94% total coverage.
+- `pytest -q --cov=bhasha`: 30 passed, 94% total coverage; ten valid examples match on VM and native ELF.
 - Native factorial (`-o /tmp/fact`) ran successfully and printed `120`.
 
 ## Decisions
