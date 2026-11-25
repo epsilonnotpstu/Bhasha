@@ -10,7 +10,7 @@ from .backend.vm import run
 from .cfg_new import build_cfg
 from .optimizer import optimize
 from .backend.native_x86 import emit_native, emit_assembly
-from .backend.wasm import emit_wat, WasmError
+from .backend.wasm_new import emit_wat, WasmError
 def compile_text(text,source="<input>"):
  tokens,ds=lex(text,source)
  if ds:return tokens,None,ds,None

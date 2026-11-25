@@ -3,7 +3,7 @@ from bhasha.lexer import lex
 from bhasha.parser import parse
 from bhasha.cli import compile_text, main
 from bhasha.optimizer import optimize
-from bhasha.backend.wasm import emit_wat, WasmError
+from bhasha.backend.wasm_new import emit_wat, WasmError
 
 def test_lexer_reports_bad_character():
  _, ds=lex('dhoro purno x = @;'); assert "invalid character" in ds[0].message
@@ -23,7 +23,10 @@ def test_optimizer_dce_keeps_value_used_after_branch():
 def test_wat_for_constant_arithmetic():
  _,tree,ds,_=compile_text('dekhao 2 + 3;'); assert not ds; wat=emit_wat(tree); assert 'i32.add' in wat and '(export "run")' in wat
 def test_wat_rejects_variables():
- _,tree,ds,_=compile_text('dhoro purno x = 2; dekhao x;'); assert not ds
+ _,tree,ds,_=compile_text('dhoro purno x = 2; x += 3; dekhao x * 4;'); assert not ds
+ wat=emit_wat(tree); assert 'local.set $x' in wat and 'i32.mul' in wat
+def test_wat_rejects_float():
+ _,tree,ds,_=compile_text('dekhao 2.5;'); assert not ds
  with pytest.raises(WasmError): emit_wat(tree)
 def test_cli_error_code(tmp_path, capsys):
  f=tmp_path/'bad.bh';f.write_text('dekhao unknown;'); assert main([str(f),'--run']) == 1; assert 'undeclared' in capsys.readouterr().err
