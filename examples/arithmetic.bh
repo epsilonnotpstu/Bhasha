@@ -1,0 +1,3 @@
+dhoro purno x = 7;
+dhoro purno y = 3;
+dekhao x * y + 1;

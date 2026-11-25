@@ -1,0 +1,3 @@
+dhoro purno sum = 0;
+cholo i = 0 theke 5 { sum += i; }
+dekhao sum;

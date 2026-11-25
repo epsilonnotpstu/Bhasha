@@ -1,0 +1,5 @@
+kaj fact(purno n): purno {
+  jodi n <= 1 { ferot 1; }
+  ferot n * fact(n - 1);
+}
+dekhao fact(5);
