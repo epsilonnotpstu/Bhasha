@@ -22,7 +22,7 @@
 
 ## Latest verification
 
-- `pytest -q --cov=bhasha`: 30 passed, 94% total coverage; ten valid examples match on VM and native ELF.
+- `pytest -q --cov=bhasha`: 31 passed, 94% total coverage; ten valid examples match on VM and native ELF; four erroneous examples have checked diagnostics.
 - Native factorial (`-o /tmp/fact`) ran successfully and printed `120`.
 
 ## Decisions
