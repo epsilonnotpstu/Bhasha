@@ -15,7 +15,7 @@
 
 ## Latest verification
 
-- `pytest -q --cov=bhasha`: 5 passed, 73% total coverage (not yet the 90% target).
+- `pytest -q --cov=bhasha`: 13 passed, 80% total coverage (not yet the 90% target).
 - Native factorial (`-o /tmp/fact`) ran successfully and printed `120`.
 
 ## Decisions
