@@ -10,7 +10,7 @@
 - [x] Label-based CFG inspection (leaders algorithm)
 - [x] Optimiser (basic-block constant/copy propagation, folding, algebraic identities, global CFG-liveness DCE)
 - [~] Native ELF backend (GCC-generated C for implemented AST subset)
-- [~] Minimal WAT backend (integer literal arithmetic only)
+- [~] WAT backend (integer scalar variables, expressions, if/while/for; no functions, arrays, floats, strings, or host I/O)
 - [x] Expanded automated test suite and 90% coverage target
 - [x] Golden VM/native example equivalence tests
 - [x] Inspectable artifact export and DFA diagram generator
@@ -22,7 +22,7 @@
 
 ## Latest verification
 
-- `pytest -q --cov=bhasha`: 32 passed, 94% total coverage; ten valid examples match on VM and native ELF; four erroneous examples have checked diagnostics.
+- `pytest -q --cov=bhasha`: 33 passed, 93% total coverage; ten valid examples match on VM and native ELF; four erroneous examples have checked diagnostics.
 - Native factorial (`-o /tmp/fact`) ran successfully and printed `120`.
 
 ## Decisions
@@ -32,4 +32,4 @@
 
 ## Next step
 
-Implement label-based CFG and dataflow optimiser, then implement native x86 or formally scope it out with instructor approval.
+Add the remaining WAT features or formally scope the optional backend; direct native execution is already verified through GCC ELF generation.

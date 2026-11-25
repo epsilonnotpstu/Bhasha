@@ -12,7 +12,7 @@ The project demonstrates every teaching-stage of a compiler: lexical and syntax 
 
 The language provides integer, floating point and Boolean types, fixed arrays, block scope, `jodi` conditionals, loops, functions and recursion. The scanner is a Unicode-aware deterministic state machine. The parser is recursive descent with precedence climbing. The semantic analyser keeps a stack of scope dictionaries and permits only integer-to-float widening.
 
-The IR is readable TAC with temporaries, labels and conditional/unconditional jumps. CFG construction applies basic-block leaders. Optimisation performs basic-block-local constant/copy propagation, numeric folding, identities and conservative temporary DCE. The VM is the reference backend. The native backend emits C and invokes GCC to produce a Linux ELF; `--asm` exposes GCC's generated System V x86-64 assembly. The optional WAT emitter supports integer literal arithmetic.
+The IR is readable TAC with temporaries, labels and conditional/unconditional jumps. CFG construction applies basic-block leaders. Optimisation performs basic-block-local constant/copy propagation, numeric folding, identities and conservative temporary DCE. The VM is the reference backend. The native backend emits C and invokes GCC to produce a Linux ELF; `--asm` exposes GCC's generated System V x86-64 assembly. The optional WAT emitter supports integer scalar declarations, assignments, arithmetic, conditionals and loops, returning the final printed integer from its exported `run` function.
 
 Dead-code elimination uses backwards CFG liveness to a fixed point: `OUT[B] = union(IN[S])` and `IN[B] = USE[B] union (OUT[B] - DEF[B])`. Only pure unused temporary definitions are removed.
 
