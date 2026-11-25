@@ -31,6 +31,8 @@ def main(argv=None):
   (out/'tac.txt').write_text("\n".join(ir)+"\n",encoding='utf8')
   (out/'optimized-tac.txt').write_text("\n".join(optimize(ir)[0])+"\n",encoding='utf8')
   (out/'cfg.dot').write_text(build_cfg(ir).dot()+"\n",encoding='utf8')
+  try: (out/'program.wat').write_text(emit_wat(tree),encoding='utf8')
+  except WasmError: pass
  if a.tokens: print("\n".join(f"{t.line}:{t.column}\t{t.type}\t{t.lexeme!r}" for t in ts[:-1]))
  if a.ast: print(json.dumps(asdict(tree),ensure_ascii=False,indent=2))
  opt_ir,stats=optimize(ir)

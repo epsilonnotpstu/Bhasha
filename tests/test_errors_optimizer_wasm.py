@@ -28,5 +28,10 @@ def test_wat_rejects_variables():
 def test_wat_rejects_float():
  _,tree,ds,_=compile_text('dekhao 2.5;'); assert not ds
  with pytest.raises(WasmError): emit_wat(tree)
+def test_wat_emits_if_and_loop_blocks():
+ source='dhoro purno x = 0; jotokkhon x < 2 { x += 1; } jodi x == 2 { dekhao x; } nahole { dekhao 0; }'
+ _,tree,ds,_=compile_text(source); assert not ds
+ wat=emit_wat(tree)
+ assert 'block $break1' in wat and 'loop $loop1' in wat and 'br_if $break1' in wat and '\nif\n' in wat
 def test_cli_error_code(tmp_path, capsys):
  f=tmp_path/'bad.bh';f.write_text('dekhao unknown;'); assert main([str(f),'--run']) == 1; assert 'undeclared' in capsys.readouterr().err

@@ -28,4 +28,6 @@ Inspect the corresponding GCC-generated System V x86-64 assembly with `.venv/bin
 
 Export tokens, AST, TAC, optimised TAC, and CFG together with `.venv/bin/bhasha examples/factorial.bh --emit-all build/factorial`.
 
+`--emit-all` additionally writes `program.wat` whenever the input is in the supported integer WAT subset.
+
 Start the browser playground with `PYTHONPATH=src python3 -m bhasha.playground`, then visit `http://localhost:8000`.
