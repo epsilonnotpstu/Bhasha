@@ -13,13 +13,14 @@
 - [~] Minimal WAT backend (integer literal arithmetic only)
 - [x] Expanded automated test suite and 90% coverage target
 - [x] Golden VM/native example equivalence tests
+- [x] Inspectable artifact export and DFA diagram generator
 - [x] Slide outline, demo script, and viva Q&A
 - [~] Inspectable System V x86-64 assembly via GCC (`--asm`)
 - [ ] Direct handwritten x86 assembly and full global data-flow optimisation
 
 ## Latest verification
 
-- `pytest -q --cov=bhasha`: 25 passed, 92% total coverage.
+- `pytest -q --cov=bhasha`: 26 passed, 94% total coverage.
 - Native factorial (`-o /tmp/fact`) ran successfully and printed `120`.
 
 ## Decisions
