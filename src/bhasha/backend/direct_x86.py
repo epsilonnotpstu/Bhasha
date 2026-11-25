@@ -15,14 +15,17 @@ class Emitter:
  def expr(self,n):
   if isinstance(n,Literal) and isinstance(n.value,int):self.lines.append(f'  mov rax, {n.value}')
   elif isinstance(n,Name):self.lines.append(f'  mov rax, QWORD PTR {self.slot(n.name)}')
-  elif isinstance(n,Binary) and n.op in ('+','-','*','/','%'):
+  elif isinstance(n,Binary) and n.op in ('+','-','*','/','%','==','!=','<','>','<=','>='):
    self.expr(n.left);self.lines.append('  push rax');self.expr(n.right);self.lines.append('  pop rcx')
    if n.op=='+':self.lines.append('  add rax, rcx')
    elif n.op=='-':self.lines.append('  sub rcx, rax');self.lines.append('  mov rax, rcx')
    elif n.op=='*':self.lines.append('  imul rax, rcx')
-   else:
+   elif n.op in ('/','%'):
     self.lines.append('  mov r8, rax');self.lines.append('  mov rax, rcx');self.lines.append('  cqo');self.lines.append('  idiv r8')
     if n.op=='%':self.lines.append('  mov rax, rdx')
+   else:
+    self.lines.append('  cmp rcx, rax');self.lines.append('  mov eax, 0')
+    self.lines.append({'==':'  sete al','!=':'  setne al','<':'  setl al','>':'  setg al','<=':'  setle al','>=':'  setge al'}[n.op])
   else:raise DirectX86Error(f'direct x86 unsupported expression: {type(n).__name__}')
  def stmt(self,n):
   if isinstance(n,VarDecl) and not n.size and n.type_name in ('purno','পূর্ণ'):

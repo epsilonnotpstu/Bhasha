@@ -9,3 +9,7 @@ def test_direct_x86_division_and_modulo(tmp_path):
  _,tree,ds,_=compile_text('dekhao 17 / 5; dekhao 17 % 5;')
  assert not ds;exe=tmp_path/'div';emit_direct(tree,exe)
  assert subprocess.run([str(exe)],capture_output=True,text=True,check=True).stdout=='3\n2\n'
+def test_direct_x86_comparisons(tmp_path):
+ _,tree,ds,_=compile_text('dekhao 2 < 3; dekhao 4 == 4; dekhao 5 != 5;')
+ assert not ds;exe=tmp_path/'cmp';emit_direct(tree,exe)
+ assert subprocess.run([str(exe)],capture_output=True,text=True,check=True).stdout=='1\n1\n0\n'
