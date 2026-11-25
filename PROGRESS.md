@@ -15,6 +15,7 @@
 - [x] Golden VM/native example equivalence tests
 - [x] Inspectable artifact export and DFA diagram generator
 - [x] Ten valid golden examples across key language features
+- [x] Error-message fixtures for lexical, syntax, semantic, and type errors
 - [x] Slide outline, demo script, and viva Q&A
 - [~] Inspectable System V x86-64 assembly via GCC (`--asm`)
 - [ ] Direct handwritten x86 assembly and full global data-flow optimisation

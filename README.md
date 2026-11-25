@@ -2,6 +2,17 @@
 
 A readable, hand-written teaching compiler for a small statically typed language with romanised and Unicode Bangla keywords. It has a scanner, LL-style recursive-descent parser, scoped type checker, inspectable TAC listing, and portable reference VM.
 
+```mermaid
+flowchart LR
+  S[.bh source] --> L[Lexer]
+  L --> P[Parser / AST]
+  P --> M[Semantic analysis]
+  M --> I[TAC + CFG + optimizer]
+  I --> V[Reference VM]
+  I --> N[Native ELF via GCC]
+  I --> W[Minimal WAT]
+```
+
 ```sh
 make setup
 .venv/bin/bhasha examples/factorial.bh --tokens --ast --tac --run

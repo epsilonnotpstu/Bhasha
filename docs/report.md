@@ -23,3 +23,10 @@ The command `PYTHONPATH=src python3 -m bhasha.cli examples/factorial.bh --tac --
 The current CFG is a one-block representation of structured inspection IR. Native x86-64, WebAssembly, full data-flow optimisation, and the complete academic report remain future phases and must not be represented as implemented.
 
 This statement supersedes the earlier draft: CFG is now label/basic-block based and native ELF is implemented through generated C/GCC. Remaining limitations are direct handwritten assembly, whole-program data-flow optimisation and a full WAT compiler.
+
+## References
+
+1. Aho, Lam, Sethi and Ullman, *Compilers: Principles, Techniques, and Tools*, 2nd edition.
+2. GCC Project, GCC documentation, https://gcc.gnu.org/onlinedocs/.
+3. LLVM Project, LLVM Language Reference Manual, https://llvm.org/docs/LangRef.html.
+4. WebAssembly Community Group, WebAssembly Core Specification, https://webassembly.github.io/spec/.
