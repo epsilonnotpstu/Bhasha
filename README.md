@@ -18,6 +18,8 @@ make setup
 .venv/bin/bhasha examples/factorial.bh --tokens --ast --tac --run
 ```
 
+After setup, `make test`, `make coverage`, `make demo`, and `make playground` use the project virtual environment automatically.
+
 Use `make test` for the test suite. The native x86 and WebAssembly emitters described in the original project brief remain planned work; `--run` is the supported execution path.
 
 The `examples/` folder contains ten valid programs (hello, arithmetic, recursive factorial, loops, GCD, conditionals, iterative/recursive Fibonacci, arrays, and multi-function calls) plus lexical/syntax/semantic error inputs.

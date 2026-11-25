@@ -2,13 +2,13 @@
 setup:
 	python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
 test:
-	PYTHONPATH=src python3 -m pytest -q
+	.venv/bin/pytest -q
 coverage:
-	PYTHONPATH=src python3 -m pytest --cov=bhasha --cov-report=term-missing
+	.venv/bin/pytest --cov=bhasha --cov-report=term-missing
 demo:
-	PYTHONPATH=src python3 -m bhasha.cli examples/factorial.bh --run
+	.venv/bin/bhasha examples/factorial.bh --run
 playground:
-	PYTHONPATH=src python3 -m bhasha.playground
+	.venv/bin/python -m bhasha.playground
 native-demo:
 	@echo "Native x86 emission is not implemented; use --run (the portable VM)."
 clean:
