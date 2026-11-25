@@ -1,8 +1,9 @@
 """Readable pseudo three-address-code listing for pipeline inspection."""
 from .ast_nodes import *
 class IRGen:
- def __init__(self): self.lines=[]; self.n=0
+ def __init__(self): self.lines=[]; self.n=0; self.labels=0; self.breaks=[]; self.continues=[]
  def temp(self): self.n+=1; return f"t{self.n}"
+ def label(self,prefix="L"): self.labels+=1; return f"{prefix}{self.labels}"
  def expr(self,n):
   if isinstance(n,Literal): return repr(n.value)
   if isinstance(n,Name): return n.name
@@ -21,7 +22,13 @@ class IRGen:
   elif isinstance(n,Print): self.lines.append(f"print {self.expr(n.value)}")
   elif isinstance(n,Return): self.lines.append(f"return {self.expr(n.value)}")
   elif isinstance(n,Function): self.lines.append(f"func {n.name}:"); self.visit(n.body); self.lines.append("endfunc")
-  elif isinstance(n,If): self.lines.append(f"if {self.expr(n.condition)} then ..."); self.visit(n.then_branch); self.visit(n.else_branch)
-  elif isinstance(n,(While,For)): self.lines.append(f"loop {type(n).__name__} ..."); self.visit(n.body)
+  elif isinstance(n,If):
+   alt,end=self.label("else"),self.label("endif"); self.lines.append(f"ifFalse {self.expr(n.condition)} goto {alt}"); self.visit(n.then_branch); self.lines.append(f"goto {end}"); self.lines.append(f"{alt}:"); self.visit(n.else_branch); self.lines.append(f"{end}:")
+  elif isinstance(n,While):
+   start,end=self.label("while"),self.label("endwhile");self.lines.append(f"{start}:");self.lines.append(f"ifFalse {self.expr(n.condition)} goto {end}");self.breaks.append(end);self.continues.append(start);self.visit(n.body);self.continues.pop();self.breaks.pop();self.lines.append(f"goto {start}");self.lines.append(f"{end}:")
+  elif isinstance(n,For):
+   start,end=self.label("for"),self.label("endfor");self.lines.append(f"{n.name} = {self.expr(n.start)}");self.lines.append(f"{start}:");self.lines.append(f"ifFalse {n.name} < {self.expr(n.end)} goto {end}");self.breaks.append(end);self.continues.append(start);self.visit(n.body);self.continues.pop();self.breaks.pop();self.lines.append(f"{n.name} += 1");self.lines.append(f"goto {start}");self.lines.append(f"{end}:")
+  elif isinstance(n,Break): self.lines.append(f"goto {self.breaks[-1]}")
+  elif isinstance(n,Continue): self.lines.append(f"goto {self.continues[-1]}")
  def generate(self,p): self.visit(p); return self.lines
 def generate(program): return IRGen().generate(program)

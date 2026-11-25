@@ -5,7 +5,7 @@ import json
 from dataclasses import asdict
 from .cli import compile_text
 from .backend.vm import run
-from .cfg import build_cfg
+from .cfg_new import build_cfg
 from .optimizer import optimize
 
 ROOT = Path(__file__).parents[2] / "tools" / "playground"

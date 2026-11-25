@@ -1,5 +1,5 @@
 """Command-line driver for implemented compiler stages."""
-import argparse,json,sys
+import argparse,json,sys,subprocess
 from pathlib import Path
 from dataclasses import asdict
 from .lexer import lex
@@ -7,8 +7,9 @@ from .parser import parse
 from .semantic import analyze
 from .irgen import generate
 from .backend.vm import run
-from .cfg import build_cfg
+from .cfg_new import build_cfg
 from .optimizer import optimize
+from .backend.native_x86 import emit_native
 def compile_text(text,source="<input>"):
  tokens,ds=lex(text,source)
  if ds:return tokens,None,ds,None
@@ -29,7 +30,11 @@ def main(argv=None):
  if getattr(a,"opt_tac"): print("\n".join(opt_ir))
  if a.cfg: print(build_cfg(ir).dot())
  if a.symtab: print("Semantic analysis passed; symbols are scope-checked.")
- if a.asm or a.wat or a.output: print("Requested optional native/WAT artifact is not available; use --run.",file=sys.stderr); return 1
+ if a.output:
+  try:
+   c=emit_native(tree,a.output); print(f"native ELF: {a.output} (generated C: {c})")
+  except (OSError,subprocess.CalledProcessError,ValueError) as e: print(f"native backend error: {e}",file=sys.stderr);return 1
+ if a.asm or a.wat: print("WAT/assembly textual emission is not yet implemented; native compilation uses generated C.",file=sys.stderr)
  if a.stats: print(f"IR instructions: {stats['before']} -> {stats['after']}; identity simplifications: {stats['simplified']}")
  if a.run: print(run(tree),end="")
  return 0

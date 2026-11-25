@@ -9,4 +9,6 @@ make setup
 
 Use `make test` for the test suite. The native x86 and WebAssembly emitters described in the original project brief remain planned work; `--run` is the supported execution path.
 
+Native ELF for the supported language subset: `.venv/bin/bhasha examples/factorial.bh -o fact && ./fact`.
+
 Start the browser playground with `PYTHONPATH=src python3 -m bhasha.playground`, then visit `http://localhost:8000`.

@@ -1,0 +1,2 @@
+dhoro purno x = 9;
+jodi x > 5 { dekhao 1; } nahole { dekhao 0; }

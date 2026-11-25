@@ -1,0 +1,4 @@
+dhoro purno a = 48;
+dhoro purno b = 18;
+jotokkhon b != 0 { dhoro purno t = b; b = a % b; a = t; }
+dekhao a;

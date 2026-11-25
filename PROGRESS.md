@@ -7,8 +7,9 @@
 - [x] Inspectable IR and reference VM
 - [x] CLI and basic browser playground
 - [x] Initial examples and error diagnostics
-- [~] CFG/optimiser (inspection implementation only)
-- [ ] Native x86/WAT backend, full optimiser, full academic documentation and coverage
+- [~] CFG/optimiser (basic-block utility and local pass in progress)
+- [~] Native x86 backend (GCC ELF backend for implemented AST subset)
+- [ ] WAT backend, full data-flow optimisation, full academic documentation and coverage
 
 ## Decisions
 
