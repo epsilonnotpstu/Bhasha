@@ -44,3 +44,8 @@ def emit_native(program,outfile):
  out=Path(outfile); c=out.with_suffix(".c");c.write_text(CEmitter().generate(program),encoding="utf8")
  subprocess.run(["gcc","-O2","-std=c11",str(c),"-o",str(out)],check=True)
  return c
+def emit_assembly(program, outfile):
+ """Emit GCC's System-V x86-64 assembly for the same generated C source."""
+ out=Path(outfile); c=out.with_suffix(".c"); c.write_text(CEmitter().generate(program),encoding="utf8")
+ subprocess.run(["gcc","-O2","-S","-masm=intel",str(c),"-o",str(out)],check=True)
+ return out

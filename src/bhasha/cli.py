@@ -1,5 +1,5 @@
 """Command-line driver for implemented compiler stages."""
-import argparse,json,sys,subprocess
+import argparse,json,sys,subprocess,tempfile
 from pathlib import Path
 from dataclasses import asdict
 from .lexer import lex
@@ -9,7 +9,7 @@ from .irgen import generate
 from .backend.vm import run
 from .cfg_new import build_cfg
 from .optimizer import optimize
-from .backend.native_x86 import emit_native
+from .backend.native_x86 import emit_native, emit_assembly
 from .backend.wasm import emit_wat, WasmError
 def compile_text(text,source="<input>"):
  tokens,ds=lex(text,source)
@@ -38,8 +38,12 @@ def main(argv=None):
  if a.wat:
   try: print(emit_wat(tree),end="")
   except WasmError as e: print(f"WAT backend error: {e}",file=sys.stderr); return 1
- if a.asm: print("Direct assembly text is not implemented; native compilation uses generated C.",file=sys.stderr)
- if a.stats: print(f"IR instructions: {stats['before']} -> {stats['after']}; folds: {stats['constant_folds']}; simplified: {stats['simplified']}; dead: {stats['dead_code']}")
+ if a.asm:
+  try:
+   with tempfile.TemporaryDirectory() as d:
+    asm=emit_assembly(tree,Path(d)/"bhasha.s"); print(asm.read_text(encoding="utf8"),end="")
+  except (OSError,subprocess.CalledProcessError,ValueError) as e: print(f"assembly backend error: {e}",file=sys.stderr);return 1
+ if a.stats: print(f"IR instructions: {stats['before']} -> {stats['after']}; folds: {stats['constant_folds']}; copy propagations: {stats['copy_propagations']}; simplified: {stats['simplified']}; dead: {stats['dead_code']}")
  if a.run: print(run(tree),end="")
  return 0
 if __name__=="__main__": raise SystemExit(main())

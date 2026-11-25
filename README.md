@@ -11,4 +11,6 @@ Use `make test` for the test suite. The native x86 and WebAssembly emitters desc
 
 Native ELF for the supported language subset: `.venv/bin/bhasha examples/factorial.bh -o fact && ./fact`.
 
+Inspect the corresponding GCC-generated System V x86-64 assembly with `.venv/bin/bhasha examples/factorial.bh --asm`.
+
 Start the browser playground with `PYTHONPATH=src python3 -m bhasha.playground`, then visit `http://localhost:8000`.
