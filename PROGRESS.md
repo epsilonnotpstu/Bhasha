@@ -11,11 +11,12 @@
 - [~] Optimiser (constant folding, algebraic identities, local temporary DCE; no global data-flow)
 - [~] Native ELF backend (GCC-generated C for implemented AST subset)
 - [~] Minimal WAT backend (integer literal arithmetic only)
-- [ ] Direct x86 assembly, full data-flow optimisation, expanded tests and 90% coverage
+- [x] Expanded automated test suite and 90% coverage target
+- [ ] Direct x86 assembly and full global data-flow optimisation
 
 ## Latest verification
 
-- `pytest -q --cov=bhasha`: 13 passed, 80% total coverage (not yet the 90% target).
+- `pytest -q --cov=bhasha`: 17 passed, 91% total coverage.
 - Native factorial (`-o /tmp/fact`) ran successfully and printed `120`.
 
 ## Decisions
