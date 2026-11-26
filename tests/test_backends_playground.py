@@ -39,9 +39,24 @@ def test_playground_api_success_and_diagnostics():
         url = f'http://127.0.0.1:{server.server_port}/api/compile'
         req = Request(url, data=json.dumps({'source':'dekhao 8;'}).encode(), headers={'Content-Type':'application/json'}, method='POST')
         with urlopen(req) as response: payload=json.load(response)
-        assert payload['output'] == '8\n' and payload['tac'] and payload['cfgBlocks']
+        assert payload['output'] == '8\n' and payload['tac'] and payload['cfgBlocks'] and payload['symbols'][0]['kind']=='global'
         req = Request(url, data=json.dumps({'source':'dekhao @;'}).encode(), headers={'Content-Type':'application/json'}, method='POST')
         with urlopen(req) as response: payload=json.load(response)
-        assert payload['diagnostics']
+        assert payload['diagnostics'] and payload['diagnosticItems'][0]['line']==1
+        req = Request(url, data=json.dumps({'source':'dhoro purno x; dekhao x;'}).encode(), headers={'Content-Type':'application/json'}, method='POST')
+        with urlopen(req) as response: payload=json.load(response)
+        assert payload['output']=='0\n' and any('warning:' in w for w in payload['warnings'])
+        req = Request(url, data=json.dumps({'source':'dekhao (2 + 3) * 1 + 0;'}).encode(), headers={'Content-Type':'application/json'}, method='POST')
+        with urlopen(req) as response: payload=json.load(response)
+        assert any(item['kind']=='removed' for item in payload['tacDiff'])
+        req = Request(url, data=json.dumps({'source':'dhoro purno x; poro x; dekhao x;', 'input':'42'}).encode(), headers={'Content-Type':'application/json'}, method='POST')
+        with urlopen(req) as response: payload=json.load(response)
+        assert payload['output'] == '42\n'
+        req = Request(url, data=json.dumps({'source':'dhoro purno x; poro x; dekhao x;'}).encode(), headers={'Content-Type':'application/json'}, method='POST')
+        with urlopen(req) as response: payload=json.load(response)
+        assert 'requires input' in payload['diagnostics'][0]
+        req = Request(url, data=json.dumps({'source':'jotokkhon shotto { }'}).encode(), headers={'Content-Type':'application/json'}, method='POST')
+        with urlopen(req,timeout=5) as response: payload=json.load(response)
+        assert 'step limit' in payload['diagnostics'][0]
     finally:
         server.shutdown(); server.server_close(); thread.join()

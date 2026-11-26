@@ -20,6 +20,8 @@ class Parser:
  def parse(self):
   ss=[]
   while self.cur().type!="EOF":
+   if self.cur().type=="}":
+    self.err("unexpected '}'");self.i+=1;continue
    try:ss.append(self.statement())
    except SyntaxError:self.sync()
   return Program(statements=ss)
@@ -71,7 +73,9 @@ class Parser:
     if ty.type not in ("INT","FLOAT","BOOL"):self.err("expected parameter type");raise SyntaxError
     self.i+=1; pn=self.need("IDENT");ps.append((pn.lexeme,ty.lexeme))
     if not self.match(","):break
-  self.need(")");self.need(":","expected ':' before return type");rt=self.cur();self.i+=1
+  self.need(")");self.need(":","expected ':' before return type");rt=self.cur()
+  if rt.type not in ("INT","FLOAT","BOOL"):self.err("expected return type");raise SyntaxError
+  self.i+=1
   return Function(t.line,t.column,name=n.lexeme,params=ps,return_type=rt.lexeme,body=self.block())
  def expr(self,minp=0):
   e=self.unary();prec={"OR":1,"AND":2,"==":3,"!=":3,"<":4,">":4,"<=":4,">=":4,"+":5,"-":5,"*":6,"/":6,"%":6}

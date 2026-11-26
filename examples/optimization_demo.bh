@@ -1,0 +1,2 @@
+// Constant expressions and neutral arithmetic make optimisation visible.
+dekhao (2 + 3) * 1 + 0;

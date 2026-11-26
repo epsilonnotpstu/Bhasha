@@ -1,4 +1,4 @@
-.PHONY: setup test coverage demo playground native-demo clean
+.PHONY: setup test coverage demo playground native-demo optimization-report clean
 setup:
 	python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
 test:
@@ -10,6 +10,10 @@ demo:
 playground:
 	.venv/bin/python -m bhasha.playground
 native-demo:
-	@echo "Native x86 emission is not implemented; use --run (the portable VM)."
+	mkdir -p build
+	.venv/bin/bhasha examples/factorial.bh -o build/factorial
+	./build/factorial
+optimization-report:
+	.venv/bin/python tools/optimization_report.py
 clean:
 	rm -rf .venv .pytest_cache .coverage build dist *.egg-info
